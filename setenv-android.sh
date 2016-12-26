@@ -42,6 +42,7 @@ ANDROID_ARCH="arch-arm64"
 ANDROID_API="android-23"
 # ANDROID_API="android-19"
 ANDROID_NDK_ROOT="$HOME/Library/Android/sdk/ndk-bundle"
+#ANDROID_NDK_ROOT="/Users/gyoung/Apps/crystax-ndk-10.3.2"
  
 #####################################################################
 

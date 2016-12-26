@@ -2,6 +2,9 @@
 #
 # http://wiki.openssl.org/index.php/Android
 #
+## TODO: http://stackoverflow.com/questions/30498776/position-independent-executables-and-android-lollipop
+## need to enable PIE
+
 set -e
 rm -rf prebuilt
 
@@ -60,9 +63,11 @@ for arch in ${archs[@]}; do
     echo "CROSS COMPILE ENV : $CROSS_COMPILE"
     cd $TARVERSION
 
-    xCFLAGS="-DSHARED_EXTENSION=.so -fPIC -DOPENSSL_PIC -DDSO_DLFCN -DHAVE_DLFCN_H -mandroid -I$ANDROID_DEV/include -B$ANDROID_DEV/$xLIB -O3 -fomit-frame-pointer -Wall"
+    xCFLAGS="-DSHARED_EXTENSION=.so -fPIC -pie -DOPENSSL_PIC -DDSO_DLFCN -DHAVE_DLFCN_H -mandroid -I$ANDROID_DEV/include -B$ANDROID_DEV/$xLIB -O3 -fomit-frame-pointer -Wall"
 
     perl -pi -e 's/install: all install_docs install_sw/install: install_docs install_sw/g' Makefile.org
+    #./Configure shared no-threads no-asm no-zlib no-ssl2 no-ssl3 no-comp no-hw no-engine --openssldir=/usr/local/ssl/android-19/ $configure_platform $xCFLAGS
+
     ./Configure shared no-threads no-asm no-zlib no-ssl2 no-ssl3 no-comp no-hw no-engine --openssldir=/usr/local/ssl/android-19/ $configure_platform $xCFLAGS
 
     # patch SONAME
